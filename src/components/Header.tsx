@@ -1,6 +1,6 @@
 import React from 'react';
 // import './Header.css'; // Assuming you have a CSS file for styling
-import logoSm from '../assets/logo-sm.png';
+import logoSm from '../assets/logo192.png';
 
 
 const Header: React.FC = () => {
