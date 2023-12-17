@@ -10,7 +10,7 @@ const Login: React.FC = () => {
                         <h1 className="text-2xl font-bold sm:text-3xl">Clarek CRM :: Log In!</h1>
 
                         <p className="mt-4 text-gray-500">
-                        A comprehensive system designed to manage and optimize interactions with various stakeholders in the business!
+                            A comprehensive system designed to manage and optimize interactions with customers and other stakeholders in the business!
                         </p>
                     </div>
 
