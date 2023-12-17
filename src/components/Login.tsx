@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
     return (
@@ -82,7 +83,12 @@ const Login: React.FC = () => {
                         <div className="flex items-center justify-between">
                             <p className="text-sm text-gray-500">
                                 No account?
-                                <a className="underline" href="">Sign up</a>
+                                <Link
+                                    to="/signup"
+                                    className="underline"
+                                >
+                                    Sign up
+                                </Link>
                             </p>
 
                             <button

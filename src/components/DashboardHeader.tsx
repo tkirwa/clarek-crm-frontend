@@ -4,7 +4,7 @@ import logoSm from '../assets/logo192.png';
 import { Link } from 'react-router-dom';
 
 
-const Header: React.FC = () => {
+const DashboardHeader: React.FC = () => {
     return (
         <header className="bg-white">
             <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
@@ -40,16 +40,16 @@ const Header: React.FC = () => {
                         <div className="sm:flex sm:gap-4">
                             {/* Use Link for navigation */}
                             <Link
-                                to="/login"
+                                to="/profile"
                                 className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
                             >
-                                Login
+                                Profile
                             </Link>
                             <Link
-                                to="/signup"
+                                to="/logout"
                                 className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
                             >
-                                Get started
+                                Logout
                             </Link>
                         </div>
 
@@ -76,4 +76,4 @@ const Header: React.FC = () => {
     );
 }
 
-export default Header;
+export default DashboardHeader;
