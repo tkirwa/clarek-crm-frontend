@@ -5,6 +5,7 @@ import PrivateRoutes from './utils/PrivateRoutes';
 import Login from './components/Login';
 import LandingPage from './components/LandingPage';
 import Signup from './components/Signup';
+import Footer from './components/Footer';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
             <Route element={<Login/>} path="/login"/>
             <Route element={<Signup/>} path="/signup"/>
           </Routes>
+          <Footer/>
     </div>
   );
 }
