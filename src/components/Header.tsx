@@ -1,6 +1,7 @@
 import React from 'react';
 // import './Header.css'; // Assuming you have a CSS file for styling
 import logoSm from '../assets/logo192.png';
+import { Link } from 'react-router-dom';
 
 
 const Header: React.FC = () => {
@@ -45,20 +46,21 @@ const Header: React.FC = () => {
 
                     <div className="flex items-center gap-4">
                         <div className="sm:flex sm:gap-4">
-                            <a
+                            {/* Use Link for navigation */}
+                            <Link
+                                to="/login"
                                 className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                                href="/"
                             >
                                 Login
-                            </a>
-
-                            <a
+                            </Link>
+                            <Link
+                                to="/register"
                                 className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
-                                href="/"
                             >
                                 Register
-                            </a>
+                            </Link>
                         </div>
+
 
                         <button
                             className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden"
