@@ -1,5 +1,5 @@
 // AuthContext.tsx
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -8,15 +8,31 @@ interface AuthProviderProps {
 interface AuthContextType {
   token: string | null;
   setToken: (token: string | null) => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = React.useState<string | null>(null);
+  const [token, setToken] = React.useState<string | null>(() => {
+    // Load token from localStorage on initialization
+    return localStorage.getItem('token');
+  });
+
+  const logout = () => {
+    // Clear the token from storage or perform any other logout logic
+    localStorage.removeItem('token');
+    // Set the token state to null
+    setToken(null);
+  };
+
+  // Save the token to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('token', token || '');
+  }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider value={{ token, setToken, logout }}>
       {children}
     </AuthContext.Provider>
   );

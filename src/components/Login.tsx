@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
 import { API_BASE_URL } from '../config';
+import { useAuth } from '../utils/AuthContext';
 
 
 const Login: React.FC = () => {
@@ -11,28 +12,36 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
-
+    const { setToken } = useAuth();
+  
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post(
-                `${API_BASE_URL}/api/auth/login`,
-                { phone, password }
-              );
-
-            const token = response.data.token;
-
-            // Store token securely (e.g., in local storage)
-            localStorage.setItem('token', token);
-
-            // Redirect to the dashboard
-            navigate('/dashboard');
-        } catch (error: any) {
-            // Use type assertion to specify the type of 'error'
-            setError((error.response?.data?.error as string) || 'An error occurred');
-          }
+      e.preventDefault();
+  
+      try {
+        const response = await axios.post(
+          `${API_BASE_URL}/api/auth/login`,
+          { phone, password }
+        );
+  
+        const token = response.data.token;
+  
+        // Store token securely (e.g., in local storage)
+        localStorage.setItem('token', token);
+  
+        // Set token in the context
+        setToken(token);
+  
+        // Redirect to the dashboard
+        navigate('/dashboard');
+  
+        // Console log the token
+        console.log('Token:', token);
+      } catch (error: any) {
+        // Use type assertion to specify the type of 'error'
+        setError((error.response?.data?.error as string) || 'An error occurred');
+      }
     };
+  
 
     return (
         <>
@@ -45,18 +54,19 @@ const Login: React.FC = () => {
                             A comprehensive system designed to manage and optimize interactions with customers and other stakeholders in the business!
                         </p>
                     </div>
+                    <form onSubmit={handleLogin} className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+                        {error && <div className="text-red-500">{error}</div>}
 
-                    <form action="" className="mx-auto mb-0 mt-8 max-w-md space-y-4">
                         <div>
-                            <label htmlFor="phone" className="sr-only">phone</label>
-
+                            <label htmlFor="phone" className="sr-only">Phone</label>
                             <div className="relative">
                                 <input
-                                    type="phone"
+                                    type="text"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     placeholder="Enter phone"
                                 />
-
                                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
                                     <FontAwesomeIcon icon={faPhone} />
                                 </span>
@@ -65,10 +75,11 @@ const Login: React.FC = () => {
 
                         <div>
                             <label htmlFor="password" className="sr-only">Password</label>
-
                             <div className="relative">
                                 <input
                                     type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     placeholder="Enter password"
                                 />

@@ -1,7 +1,7 @@
 // App.tsx
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PrivateRoutes from './utils/PrivateRoutes';
+import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './utils/AuthContext';
 import LandingPage from './components/LandingPage';
 import Login from './components/Login';
@@ -19,7 +19,7 @@ const App: React.FC = () => {
             <Route element={<LandingPage/>} path="/"/>
             <Route element={<Login/>} path="/login"/>
             <Route element={<Signup/>} path="/signup"/>
-          <Route path="/dashboard/*" element={<PrivateRoutes />}>
+          <Route path="/dashboard/*" element={<PrivateRoute />}>
             <Route index element={<Dashboard />} />
             <Route path="stats" element={<Analytics />} />
           </Route>

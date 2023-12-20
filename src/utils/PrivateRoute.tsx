@@ -1,12 +1,12 @@
-// PrivateRoutes.tsx
+// PrivateRoute.tsx
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-const PrivateRoutes: React.FC = () => {
+const PrivateRoute: React.FC = () => {
   const { token } = useAuth();
 
   return token ? <Outlet /> : <Navigate to="/login" />;
 };
 
-export default PrivateRoutes;
+export default PrivateRoute;
