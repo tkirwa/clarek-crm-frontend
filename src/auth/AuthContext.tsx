@@ -8,6 +8,8 @@ interface AuthProviderProps {
 interface AuthContextType {
   token: string | null;
   setToken: (token: string | null) => void;
+  user: any | null;
+  setUser: (user: any | null) => void;
   logout: () => void;
 }
 
@@ -18,6 +20,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Load token from localStorage on initialization
     return localStorage.getItem('token');
   });
+  const [user, setUser] = React.useState<any | null>(null);
+
 
   const logout = () => {
     // Clear the token from storage or perform any other logout logic
@@ -32,7 +36,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, setToken, logout }}>
+    <AuthContext.Provider value={{ token, setToken, user, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

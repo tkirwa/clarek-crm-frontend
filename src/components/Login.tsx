@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
-import { API_BASE_URL } from '../config';
-import { useAuth } from '../utils/AuthContext';
+import { API_BASE_URL } from '../utils/config';
+import { useAuth } from '../auth/AuthContext';
 
 
 const Login: React.FC = () => {
