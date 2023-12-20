@@ -1,30 +1,33 @@
+// App.tsx
 import React from 'react';
-import './App.css'; // Assuming you have a CSS file for styling
-
-import { Routes, Route } from 'react-router-dom'
-import Header from './components/Header';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoutes from './utils/PrivateRoutes';
-import Login from './components/Login';
+import { AuthProvider } from './utils/AuthContext';
 import LandingPage from './components/LandingPage';
+import Login from './components/Login';
 import Signup from './components/Signup';
-import Footer from './components/Footer';
+import Dashboard from './components/Dashboard';
+import Analytics from './components/stats/Analytics';
+import Header from './components/Header';
 
 const App: React.FC = () => {
   return (
-    <div className='container mx-auto max-w-screen-xl'>
-      <Header/>
-          <Routes>
-            <Route element={<PrivateRoutes />}>
-                {/* <Route element={<Home/>} path="/" exact/> */}
-                {/* <Route element={<Products/>} path="/products"/> */}
-            </Route>
+    <AuthProvider>
+      <BrowserRouter>
+      <Header />
+        <Routes>
             <Route element={<LandingPage/>} path="/"/>
             <Route element={<Login/>} path="/login"/>
             <Route element={<Signup/>} path="/signup"/>
-          </Routes>
-          <Footer/>
-    </div>
+          <Route path="/dashboard/*" element={<PrivateRoutes />}>
+            <Route index element={<Dashboard />} />
+            <Route path="stats" element={<Analytics />} />
+          </Route>
+          {/* Add other routes as needed */}
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
-}
+};
 
 export default App;

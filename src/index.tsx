@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -10,9 +10,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Router>
+    {/* <Router> */}
+    <div className='container mx-auto max-w-screen-xl'>
       <App />
-    </Router>
+    </div>
+    {/* </Router> */}
   </React.StrictMode>
 );
 

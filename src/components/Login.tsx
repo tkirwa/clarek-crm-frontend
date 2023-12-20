@@ -1,7 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPhone } from '@fortawesome/free-solid-svg-icons'
+import { API_BASE_URL } from '../config';
+
 
 const Login: React.FC = () => {
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post(
+                `${API_BASE_URL}/api/auth/login`,
+                { phone, password }
+              );
+
+            const token = response.data.token;
+
+            // Store token securely (e.g., in local storage)
+            localStorage.setItem('token', token);
+
+            // Redirect to the dashboard
+            navigate('/dashboard');
+        } catch (error: any) {
+            // Use type assertion to specify the type of 'error'
+            setError((error.response?.data?.error as string) || 'An error occurred');
+          }
+    };
+
     return (
         <>
             <section className="relative flex flex-wrap lg:h-screen lg:items-center">
@@ -16,30 +48,17 @@ const Login: React.FC = () => {
 
                     <form action="" className="mx-auto mb-0 mt-8 max-w-md space-y-4">
                         <div>
-                            <label htmlFor="email" className="sr-only">Email</label>
+                            <label htmlFor="phone" className="sr-only">phone</label>
 
                             <div className="relative">
                                 <input
-                                    type="email"
+                                    type="phone"
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                    placeholder="Enter email"
+                                    placeholder="Enter phone"
                                 />
 
                                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4 text-gray-400"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                                        />
-                                    </svg>
+                                    <FontAwesomeIcon icon={faPhone} />
                                 </span>
                             </div>
                         </div>
