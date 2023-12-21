@@ -36,18 +36,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('token', token || '');
   }, [token]);
 
-
-  // useEffect(() => {
-  //   if (token) {
-  //     const decodedUser = decodeToken(token);
-  //     if (decodedUser) {
-  //       setUser(decodedUser);
-  //     }
-  //   } else {
-  //     setUser(null);
-  //   }
-  // }, [token]);
-
   return (
     <AuthContext.Provider value={{ token, setToken, user, setUser, logout }}>
       {children}

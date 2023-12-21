@@ -37,7 +37,7 @@ const SideBar: React.FC = () => {
 
                     <ul className="mt-6 space-y-1">
                         <li>
-                            <Link to="" className="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
+                            <Link to="complaints_list" className="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
                                 Complaints
                             </Link>
                         </li>
@@ -90,7 +90,7 @@ const SideBar: React.FC = () => {
 
                         <li>
                             <Link
-                                to=""
+                                to="users"
                                 className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                             >
                                 users

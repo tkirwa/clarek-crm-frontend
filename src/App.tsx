@@ -11,6 +11,9 @@ import Profile from './components/Profile';
 import About from './components/About';
 import Homepage from './components/Homepage';
 import Header from './components/Header';
+import LaunchComplaint from './components/complaints/LaunchComplaint';
+import ComplaintList from './components/complaints/ComplaintList';
+import UsersList from './components/stats/UsersList';
 
 const App: React.FC = () => {
   return (
@@ -24,8 +27,15 @@ const App: React.FC = () => {
           <Route element={<About />} path="/about" />
           <Route path="/dashboard/*" element={<PrivateRoute />}>
             <Route index element={<Dashboard />} />
+            <Route path="complaints_list" element={<ComplaintList />} />
+            <Route path="users" element={<UsersList />} />
             <Route path="stats" element={<Analytics />} />
             <Route path="profile" element={<Profile />} />
+          </Route>
+          <Route path="/launch_complaint/*" element={<PrivateRoute />}>
+            <Route index element={<LaunchComplaint />} />
+            {/* <Route path="complaints_list" element={<ComplaintList />} /> */}
+            {/* <Route path="profile" element={<Profile />} /> */}
           </Route>
           {/* Add other routes as needed */}
         </Routes>

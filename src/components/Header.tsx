@@ -61,13 +61,26 @@ const Header: React.FC = () => {
                             </ul>
                         </nav>
                     ) : (
-                        <nav aria-label="Global" className="hidden md:block">
-                            <ul className="flex items-center gap-6 text-sm">
-                                <li>
-                                    <Link className="text-gray-500 transition hover:text-gray-500/75" to="/about"> Analytics </Link>
-                                </li>
-                            </ul>
-                        </nav>
+                        <>
+                            <Link
+                                to="/analytics"
+                                className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
+                            >
+                                Analytics : : Stats
+                            </Link>
+                            <Link
+                                to="/launch_complaint"
+                                className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                            >
+                                Launch Complaint
+                            </Link>
+                            <Link
+                                to="/reports"
+                                className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
+                            >
+                                CRM : : Reports
+                            </Link>
+                        </>
                     )}
 
 
