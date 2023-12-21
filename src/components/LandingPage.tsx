@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // import { useAuth } from '../auth/AuthContext'; // Adjust the path based on your project structure
 
@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const LandingPage: React.FC = () => {
 
     // const { token } = useAuth();
-    const [loggedIn, setLoggedIn] = useState<boolean>(false); // Updated to boolean
+    // const [loggedIn, setLoggedIn] = useState<boolean>(false); // Updated to boolean
     const navigate = useNavigate();
 
 
@@ -18,7 +18,7 @@ const LandingPage: React.FC = () => {
 
         // If the user is logged in, set loggedIn to true
         if (isLoggedIn) {
-            setLoggedIn(true);
+            // setLoggedIn(true);
             navigate('/dashboard');
         }
     }, [navigate]);

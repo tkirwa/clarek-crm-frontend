@@ -1,10 +1,12 @@
-import React from 'react';
-import { useAuth } from '../auth/AuthContext'; 
+import React, { useEffect } from 'react';
+import { useAuth } from '../auth/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
 const SideBar: React.FC = () => {
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const { token, user } = useAuth();
+
 
     const handleLogout = () => {
         // Call the logout function to clear the token
@@ -13,6 +15,20 @@ const SideBar: React.FC = () => {
         // Redirect to the login page after logout
         navigate('/login');
     };
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                console.log(user);
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+            }
+        };
+
+        if (token) {
+            fetchUserProfile();
+        }
+    }, [token, user]);
 
     return (
         <>
@@ -166,11 +182,21 @@ const SideBar: React.FC = () => {
                         />
 
                         <div>
-                            <p className="text-xs">
-                                <strong className="block font-medium">Eric Frusciante</strong>
+                            {user ? (
 
-                                <span> eric@frusciante.com </span>
+                                <p className="text-xs">
+                                    <strong className="block font-medium">{user.firstName} {user.lastName}</strong>
+
+                                    <span> {user.email} </span>
+                                </p>
+                            ) : (
+                                <p className="text-xs">
+                                <strong className="block font-medium">{user.firstName} {user.lastName}</strong>
+
+                                <span> {user.email} </span>
                             </p>
+                            )}
+
                         </div>
                     </Link>
                 </div>

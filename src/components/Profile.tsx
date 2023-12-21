@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+// import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
 
-
 const Profile: React.FC = () => {
-    const { user } = useAuth();
+  const { token, user } = useAuth();
+  // const [user, setUser] = useState<any | null>(null);
 
-    return (
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        console.log(user);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    if (token) {
+      fetchUserProfile();
+    }
+  }, [token, user]);
+
+  return (
+    <div>
+      {user ? (
         <>
-        <h2>Profile</h2>
-        {user && (
-          <div>
-            <p>Username: {user.username}</p>
-            {/* Add other user details as needed */}
-          </div>
-        )}
-      </>
-    );
-}
+          <h1>Welcome, {user.firstName} {user.lastName}!</h1>
+          <p>Email: {user.email}</p>
+          <p>Phone: {user.phone}</p>
+          <p>Role: {user.role}</p>
+          <p>Dark Mode: {`${user.settings.darkMode}`}</p>
+          <p>Dark Mode: {user.settings.language}</p>
+          {/* Add more details as needed */}
+        </>
+      ) : (
+        <p>Loading user profile...</p>
+      )}
+    </div>
+  );
+};
 
 export default Profile;

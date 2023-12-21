@@ -64,7 +64,7 @@ const Header: React.FC = () => {
                         <nav aria-label="Global" className="hidden md:block">
                             <ul className="flex items-center gap-6 text-sm">
                                 <li>
-                                    <Link className="text-gray-500 transition hover:text-gray-500/75" to="/about"> Analtyics </Link>
+                                    <Link className="text-gray-500 transition hover:text-gray-500/75" to="/about"> Analytics </Link>
                                 </li>
                             </ul>
                         </nav>
@@ -98,7 +98,7 @@ const Header: React.FC = () => {
                                     to="/dashboard/profile"
                                     className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
                                 >
-                                    {user ? `Welcome, ${user.username}` : 'Profile'}
+                                    {user ? `Welcome, ${user.lastName}` : 'Profile'}
                                 </Link>
                                 <button
                                     onClick={handleLogout}

@@ -3,22 +3,22 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './auth/PrivateRoute';
 import { AuthProvider } from './auth/AuthContext';
-import LandingPage from './components/LandingPage';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import Analytics from './components/stats/Analytics';
-import Header from './components/Header';
 import Profile from './components/Profile';
 import About from './components/About';
+import Homepage from './components/Homepage';
+import Header from './components/Header';
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Header />
+      <Header/>
         <Routes>
-          <Route element={<LandingPage />} path="/" />
+          <Route element={<Homepage />} path="/" />
           <Route element={<Login />} path="/login" />
           <Route element={<Signup />} path="/signup" />
           <Route element={<About />} path="/about" />

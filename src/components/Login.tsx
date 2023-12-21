@@ -12,8 +12,7 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
-    const { setToken } = useAuth();
-    const [loggedIn, setLoggedIn] = useState<boolean>(false); // Updated to boolean
+    const { setToken, setUser } = useAuth();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,19 +23,22 @@ const Login: React.FC = () => {
                 { phone, password }
             );
 
-            const token = response.data.token;
+            const { token, user } = response.data;
 
             // Store token securely (e.g., in local storage)
             localStorage.setItem('token', token);
 
             // Set token in the context
             setToken(token);
+            setUser(user);
 
             // Redirect to the dashboard
             navigate('/dashboard');
 
             // Console log the token
             console.log('Token:', token);
+            console.log('User:', user);
+
         } catch (error: any) {
             // Use type assertion to specify the type of 'error'
             setError((error.response?.data?.error as string) || 'An error occurred');
@@ -51,7 +53,7 @@ const Login: React.FC = () => {
 
         // If the user is logged in, set loggedIn to true
         if (isLoggedIn) {
-            setLoggedIn(true);
+            // setLoggedIn(true);
             navigate('/dashboard');
         }
     }, [navigate]);

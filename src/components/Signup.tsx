@@ -1,7 +1,105 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../utils/config';
+
 
 const Signup: React.FC = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+
+    const handleSignup = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Trim and validate input fields
+        const trimmedFirstName = firstName.trim();
+        const trimmedLastName = lastName.trim();
+        const trimmedEmail = email.trim();
+        const trimmedPhone = phone.trim();
+        const trimmedPassword = password.trim();
+        const trimmedPasswordConfirmation = passwordConfirmation.trim();
+
+        // Check for non-empty fields
+        if (
+            !trimmedFirstName ||
+            !trimmedLastName ||
+            !trimmedPhone ||
+            !trimmedEmail ||
+            !trimmedPassword ||
+            !trimmedPasswordConfirmation
+        ) {
+            setError('All fields are required');
+            return;
+        }
+        // Remove spaces from the phone number
+        const formattedPhone = trimmedPhone.replace(/\s/g, '');
+
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(trimmedEmail)) {
+            setError('Invalid email format');
+            return;
+        }
+
+        // Password confirmation validation
+        if (trimmedPassword !== trimmedPasswordConfirmation) {
+            setError('Password and password confirmation do not match');
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const response = await axios.post(`${API_BASE_URL}/api/users`, {
+                firstName: trimmedFirstName,
+                lastName: trimmedLastName,
+                phone: formattedPhone,
+                email: trimmedEmail,
+                password: trimmedPassword,
+                password_confirmation: trimmedPasswordConfirmation,
+            });
+
+            const { user } = response.data;
+
+            // Assume that you have a successful registration message to display
+            setMessage("User registered successfully");
+            console.log('User registered successfully:', user);
+            navigate('/login');
+        } catch (error: any) {
+            if (error.response && error.response.data && error.response.data.errors) {
+                setError((error.response.data.errors[0]?.msg as string) || 'An error occurred');
+            } else {
+                setError('An error occurred');
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Use useEffect to check if the user is logged in and redirect
+    useEffect(() => {
+        // Check if the user is logged in (you can replace this with your actual authentication logic)
+        const storedToken = localStorage.getItem('token');
+        const isLoggedIn = !!storedToken; // Check if the token exists
+
+        // If the user is logged in, set loggedIn to true
+        if (isLoggedIn) {
+            // setLoggedIn(true);
+            navigate('/dashboard');
+        }
+    }, [navigate]);
+
     return (
         <>
             <section className="bg-white">
@@ -37,17 +135,13 @@ const Signup: React.FC = () => {
                                     </svg>
                                 </a>
 
-                                <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                                    Welcome to Squid 🦑
-                                </h1>
 
-                                <p className="mt-4 leading-relaxed text-gray-500">
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
-                                    quibusdam aperiam voluptatum.
-                                </p>
                             </div>
 
-                            <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+                            <form onSubmit={handleSignup} className="mt-8 grid grid-cols-6 gap-6">
+                                {error && <div className="text-red-500">{error}</div>}
+                                {message && <div className="text-green-500">{message}</div>}
+
                                 <div className="col-span-6 sm:col-span-3">
                                     <label htmlFor="FirstName" className="block text-sm font-medium text-gray-700">
                                         First Name
@@ -57,7 +151,9 @@ const Signup: React.FC = () => {
                                         type="text"
                                         id="FirstName"
                                         name="first_name"
-                                        className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     />
                                 </div>
 
@@ -70,34 +166,55 @@ const Signup: React.FC = () => {
                                         type="text"
                                         id="LastName"
                                         name="last_name"
-                                        className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     />
                                 </div>
 
                                 <div className="col-span-6">
-                                    <label htmlFor="Email" className="block text-sm font-medium text-gray-700"> Email </label>
+                                    <label htmlFor="phone" className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"> Phone </label>
+
+                                    <input
+                                        type="text"
+                                        id="phone"
+                                        placeholder="Format +234XXXXXXXX"
+                                        name="phone"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                    />
+                                </div>
+
+                                <div className="col-span-6">
+                                    <label htmlFor="Email" className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"> Email </label>
 
                                     <input
                                         type="email"
                                         id="Email"
                                         name="email"
-                                        className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     />
                                 </div>
 
+
                                 <div className="col-span-6 sm:col-span-3">
-                                    <label htmlFor="Password" className="block text-sm font-medium text-gray-700"> Password </label>
+                                    <label htmlFor="Password" className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"> Password </label>
 
                                     <input
                                         type="password"
                                         id="Password"
                                         name="password"
-                                        className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     />
                                 </div>
 
                                 <div className="col-span-6 sm:col-span-3">
-                                    <label htmlFor="PasswordConfirmation" className="block text-sm font-medium text-gray-700">
+                                    <label htmlFor="PasswordConfirmation" className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm">
                                         Password Confirmation
                                     </label>
 
@@ -105,7 +222,9 @@ const Signup: React.FC = () => {
                                         type="password"
                                         id="PasswordConfirmation"
                                         name="password_confirmation"
-                                        className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                                        value={passwordConfirmation}
+                                        onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     />
                                 </div>
 
@@ -135,6 +254,7 @@ const Signup: React.FC = () => {
 
                                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                                     <button
+                                        type="submit"
                                         className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
                                     >
                                         Create an account
