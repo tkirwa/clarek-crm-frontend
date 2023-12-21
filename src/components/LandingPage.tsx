@@ -1,8 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+// import { useAuth } from '../auth/AuthContext'; // Adjust the path based on your project structure
 
 
 const LandingPage: React.FC = () => {
+
+    // const { token } = useAuth();
+    const [loggedIn, setLoggedIn] = useState<boolean>(false); // Updated to boolean
+    const navigate = useNavigate();
+
+
+    // Use useEffect to check if the user is logged in and redirect
+    useEffect(() => {
+        // Check if the user is logged in (you can replace this with your actual authentication logic)
+        const storedToken = localStorage.getItem('token');
+        const isLoggedIn = !!storedToken; // Check if the token exists
+
+        // If the user is logged in, set loggedIn to true
+        if (isLoggedIn) {
+            setLoggedIn(true);
+            navigate('/dashboard');
+        }
+    }, [navigate]);
+
+
     return (
         <>
             <section
@@ -23,7 +44,7 @@ const LandingPage: React.FC = () => {
                         </h1>
 
                         <p className="mt-4 max-w-lg sm:text-xl/relaxed">
-                        A comprehensive system designed to manage and optimize interactions with customers and other stakeholders in the business!
+                            A comprehensive system designed to manage and optimize interactions with customers and other stakeholders in the business!
                         </p>
 
                         <div className="mt-8 flex flex-wrap gap-4 text-center">
