@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-
-// import "tailwindcss/tailwind.css"; // Import Tailwind CSS
 import { API_BASE_URL } from "../utils/config";
 import { useAuth } from "../auth/AuthContext";
 
@@ -21,21 +19,20 @@ interface User {
 const UserDoughnutChart: React.FC = () => {
   const { token } = useAuth();
 
-  const [userData, setUserData] = useState<User[]>([]);
+  const [userData, setUserData] = useState<User[] | undefined>(undefined);
   const [userCount, setUserCount] = useState<{ [key: string]: number }>({
-    normal: 0,
+    user: 0,
     admin: 0,
   });
 
   useEffect(() => {
-
     const fetchUserData = async () => {
       try {
         const response = await axios.get<User[]>(
           `${API_BASE_URL}/api/users`,
           {
             headers: {
-              Authorization: `Token ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -46,20 +43,23 @@ const UserDoughnutChart: React.FC = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
-    // Calculate user count when userData changes
-    const count: { [key: string]: number } = {
-      user: 0,
-      admin: 0,
-    };
+    // Check if userData is an array before calculating user count
+    if (Array.isArray(userData)) {
+      // Calculate user count when userData changes
+      const count: { [key: string]: number } = {
+        user: 0,
+        admin: 0,
+      };
 
-    userData.forEach((user) => {
-      count[user.role === "admin" ? "admin" : "user"]++;
-    });
+      userData.forEach((user) => {
+        count[user.role === "admin" ? "admin" : "user"]++;
+      });
 
-    setUserCount(count);
+      setUserCount(count);
+    }
   }, [userData]);
 
   // Prepare data for the Doughnut chart

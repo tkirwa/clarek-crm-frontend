@@ -11,6 +11,7 @@ const Login: React.FC = () => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false); // Added loading state
     const navigate = useNavigate();
     const { setToken, setUser } = useAuth();
 
@@ -18,6 +19,7 @@ const Login: React.FC = () => {
         e.preventDefault();
 
         try {
+            setLoading(true);
             const response = await axios.post(
                 `${API_BASE_URL}/api/auth/login`,
                 { phone, password }
@@ -42,7 +44,10 @@ const Login: React.FC = () => {
         } catch (error: any) {
             // Use type assertion to specify the type of 'error'
             setError((error.response?.data?.error as string) || 'An error occurred');
+        } finally {
+            setLoading(false); // Set loading state to false after login attempt
         }
+
     };
 
     // Use useEffect to check if the user is logged in and redirect
@@ -73,6 +78,8 @@ const Login: React.FC = () => {
                     <form onSubmit={handleLogin} className="mx-auto mb-0 mt-8 max-w-md space-y-4">
                         {error && <div className="text-red-500">{error}</div>}
 
+                        
+
                         <div>
                             <label htmlFor="phone" className="sr-only">Phone</label>
                             <div className="relative">
@@ -81,7 +88,7 @@ const Login: React.FC = () => {
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                    placeholder="Enter phone"
+                                    placeholder="+234XXXXXXXX..."
                                 />
                                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
                                     <FontAwesomeIcon icon={faPhone} />
@@ -126,22 +133,30 @@ const Login: React.FC = () => {
                         </div>
 
                         <div className="flex items-center justify-between">
-                            <p className="text-sm text-gray-500">
-                                No account?
-                                <Link
-                                    to="/signup"
-                                    className="underline"
-                                >
-                                    Sign up
-                                </Link>
-                            </p>
 
                             <button
                                 type="submit"
                                 className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+                                disabled={loading} // Disable button when loading
                             >
                                 Sign in
                             </button>
+
+                            <Link className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" to="#">
+                                Forgot Password?
+                            </Link>
+                        </div>
+                        <div className="flex items-center justify-between">
+
+                            <p className="text-sm text-gray-500">
+                                <label>No account? </label>
+                                <Link
+                                    to="/signup"
+                                    className="text-blue-500"
+                                >
+                                    Get started
+                                </Link>
+                            </p>
                         </div>
                     </form>
                 </div>
@@ -149,7 +164,7 @@ const Login: React.FC = () => {
                 <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
                     <img
                         alt="Welcome"
-                        src="https://images.unsplash.com/photo-1630450202872-e0829c9d6172?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        src="https://images.unsplash.com/photo-1543599538-a6c4f6cc5c05"
                         className="absolute inset-0 h-full w-full object-cover"
                     />
                 </div>

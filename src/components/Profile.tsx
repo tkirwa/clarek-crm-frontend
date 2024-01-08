@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 // import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
-import { Link } from 'react-router-dom';
 
 const Profile: React.FC = () => {
   const { token, user } = useAuth();
@@ -25,66 +24,64 @@ const Profile: React.FC = () => {
     <div>
       {user ? (
         <>
-          <h1>Welcome, {user.firstName} {user.lastName}!</h1>
-          <p>Email: {user.email}</p>
-          <p>Phone: {user.phone}</p>
-          <p>Role: {user.role}</p>
-          <p>User ID: {user._id}</p>
-          <p>Dark Mode: {`${user.settings.darkMode}`}</p>
-          <p>Dark Mode: {user.settings.language}</p>
 
-          <div>
-            <div className="sm:hidden">
-              <label htmlFor="Tab" className="sr-only">Tab</label>
-
-              <select id="Tab" className="w-full rounded-md border-gray-200">
-                <option>Settings</option>
-                <option>Messages</option>
-                <option>Archive</option>
-                <option selected>Notifications</option>
-              </select>
-            </div>
-
-            <div className="hidden sm:block">
-              <div className="border-b border-gray-200">
-                <nav className="-mb-px flex gap-6" aria-label="Tabs">
-                  <Link
-                    to="#"
-                    className="shrink-0 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Settings
-                  </Link>
-
-                  <Link
-                    to="#"
-                    className="shrink-0 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Messages
-                  </Link>
-
-                  <Link
-                    to="#"
-                    className="shrink-0 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Archive
-                  </Link>
-
-                  <Link
-                    to="#"
-                    className="shrink-0 border-b-2 border-sky-500 px-1 pb-4 text-sm font-medium text-sky-600"
-                    aria-current="page"
-                  >
-                    Notifications
-                  </Link>
-                </nav>
+          <div className="flow-root rounded-lg border border-gray-100 py-3 shadow-sm">
+            <dl className="-my-3 divide-y divide-gray-100 text-sm">
+              <div className="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt className="font-medium text-gray-900">Full name</dt>
+                <dd className="text-gray-700 sm:col-span-2">{user.firstName} {user.lastName}</dd>
               </div>
-            </div>
+
+              <div className="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt className="font-medium text-gray-900">Email</dt>
+                <dd className="text-gray-700 sm:col-span-2">{user.email}</dd>
+              </div>
+
+              <div className="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt className="font-medium text-gray-900">Phone</dt>
+                <dd className="text-gray-700 sm:col-span-2">+{user.phone}</dd>
+              </div>
+
+              <div className="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt className="font-medium text-gray-900">Role</dt>
+                <dd className="text-gray-700 sm:col-span-2">{user.role}</dd>
+              </div>
+
+              {/* <div className="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt className="font-medium text-gray-900">User ID</dt>
+                <dd className="text-gray-700 sm:col-span-2">{user._id}</dd>
+              </div> */}
+
+              <div className="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt className="font-medium text-gray-900"><label htmlFor="darkMode" className="flex items-center">Dark Mode</label></dt>
+                <dd className="text-gray-700 sm:col-span-2">
+                  <div className="relative h-8 w-14 cursor-pointer">
+                    <span className="absolute inset-0 rounded-full bg-gray-300 transition peer-checked:bg-green-500"></span>
+                    <input
+                      type="checkbox"
+                      id="darkMode"
+                      className="peer sr-only"
+                      defaultChecked={user.settings.darkMode}
+                      disabled
+                    />
+                    <span className="absolute inset-y-0 start-0 m-1 h-6 w-6 rounded-full bg-white transition-all peer-checked:start-6"></span>
+              </div>
+            </dd>
           </div>
+
+          <div className="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+            <dt className="font-medium text-gray-900">Language</dt>
+            <dd className="text-gray-700 sm:col-span-2">{user.settings.language}</dd>
+          </div>
+
+        </dl>
+    </div>
+
         </>
       ) : (
-        <p>Loading user profile...</p>
-      )}
-    </div>
+  <p>Loading user profile...</p>
+)}
+    </div >
   );
 };
 

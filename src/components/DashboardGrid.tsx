@@ -1,5 +1,6 @@
 import React from 'react';
 import SideBar from './SideBar';
+import UserDoughnutChart from '../analytics/UserDoughnutChart';
 
 const DashboardGrid: React.FC = () => {
     return (
@@ -8,7 +9,9 @@ const DashboardGrid: React.FC = () => {
                 <div className="h-32 rounded-lg bg-gray-200">
                     <SideBar/>
                 </div>
-                <div className="h-32 rounded-lg bg-gray-200 lg:col-span-2"></div>
+                <div className="h-32 rounded-lg bg-gray-200 lg:col-span-2">
+                    <UserDoughnutChart/>
+                </div>
                 <div className="h-32 rounded-lg bg-gray-200"></div>
             </div>
         </>

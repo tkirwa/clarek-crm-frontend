@@ -13,7 +13,7 @@ import Homepage from './components/Homepage';
 import Header from './components/Header';
 import LaunchComplaint from './components/complaints/LaunchComplaint';
 import ComplaintList from './components/complaints/ComplaintList';
-import UsersList from './components/stats/UsersList';
+import UsersList from './components/users/UsersList';
 
 const App: React.FC = () => {
   return (
