@@ -17,38 +17,32 @@ const Login: React.FC = () => {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-
+      
         try {
-            setLoading(true);
-            const response = await axios.post(
-                `${API_BASE_URL}/api/auth/login`,
-                { phone, password }
-            );
-
-            const { token, user } = response.data;
-
-            // Store token securely (e.g., in local storage)
-            localStorage.setItem('token', token);
-
-            // Set token in the context
-            setToken(token);
-            setUser(user);
-
-            // Redirect to the dashboard
-            navigate('/dashboard');
-
-            // Console log the token
-            console.log('Token:', token);
-            console.log('User:', user);
-
+          setLoading(true);
+          const response = await axios.post(
+            `${API_BASE_URL}/api/auth/login`,
+            { phone, password }
+          );
+      
+          const { token, user } = response.data;
+      
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
+      
+          setToken(token);
+          setUser(user);
+      
+          navigate('/dashboard');
+      
+          console.log('Token:', token);
+          console.log('User:', user);
         } catch (error: any) {
-            // Use type assertion to specify the type of 'error'
-            setError((error.response?.data?.error as string) || 'An error occurred');
+          setError((error.response?.data?.error as string) || 'An error occurred');
         } finally {
-            setLoading(false); // Set loading state to false after login attempt
+          setLoading(false);
         }
-
-    };
+      };
 
     // Use useEffect to check if the user is logged in and redirect
     useEffect(() => {

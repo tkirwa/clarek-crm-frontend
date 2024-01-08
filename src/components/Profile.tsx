@@ -3,7 +3,9 @@ import React, { useEffect } from 'react';
 import { useAuth } from '../auth/AuthContext';
 
 const Profile: React.FC = () => {
-  const { token, user } = useAuth();
+  // const { token, user } = useAuth();
+  const { token, user, setUser } = useAuth();
+
   // const [user, setUser] = useState<any | null>(null);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ const Profile: React.FC = () => {
     if (token) {
       fetchUserProfile();
     }
-  }, [token, user]);
+  }, [token, user, setUser]);
 
   return (
     <div>

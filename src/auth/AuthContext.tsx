@@ -20,21 +20,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Load token from localStorage on initialization
     return localStorage.getItem('token');
   });
-  const [user, setUser] = React.useState<any | null>(null);
+  const [user, setUser] = React.useState<any | null>(() => {
+    // Load user from localStorage on initialization
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
 
   const logout = () => {
-    // Clear the token from storage or perform any other logout logic
     localStorage.removeItem('token');
-    // Set the token state to null
+    localStorage.removeItem('user');
     setToken(null);
+    setUser(null);
   };
 
   // Save the token to localStorage whenever it changes
 
   useEffect(() => {
     localStorage.setItem('token', token || '');
-  }, [token]);
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [token, user]);
 
   return (
     <AuthContext.Provider value={{ token, setToken, user, setUser, logout }}>
