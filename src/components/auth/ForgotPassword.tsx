@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
-import { API_BASE_URL } from '../utils/config';
-import { useAuth } from '../auth/AuthContext';
+import { API_BASE_URL } from '../../utils/config';
+import { useAuth } from '../../auth/AuthContext';
 
 
-const Login: React.FC = () => {
+const ForgotPassword: React.FC = () => {
     const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
+    const [smsCode, setSmsCode] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false); // Added loading state
     const navigate = useNavigate();
@@ -17,32 +17,32 @@ const Login: React.FC = () => {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-      
+
         try {
-          setLoading(true);
-          const response = await axios.post(
-            `${API_BASE_URL}/api/auth/login`,
-            { phone, password }
-          );
-      
-          const { token, user } = response.data;
-      
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
-      
-          setToken(token);
-          setUser(user);
-      
-          navigate('/dashboard');
-      
-          console.log('Token:', token);
-          console.log('User:', user);
+            setLoading(true);
+            const response = await axios.post(
+                `${API_BASE_URL}/api/auth/login`,
+                { phone, setSmsCode }
+            );
+
+            const { token, user } = response.data;
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            setToken(token);
+            setUser(user);
+
+            navigate('/dashboard');
+
+            console.log('Token:', token);
+            console.log('User:', user);
         } catch (error: any) {
-          setError((error.response?.data?.error as string) || 'An error occurred');
+            setError((error.response?.data?.error as string) || 'An error occurred');
         } finally {
-          setLoading(false);
+            setLoading(false);
         }
-      };
+    };
 
     // Use useEffect to check if the user is logged in and redirect
     useEffect(() => {
@@ -63,16 +63,12 @@ const Login: React.FC = () => {
             <section className="relative flex flex-wrap lg:h-screen lg:items-center">
                 <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
                     <div className="mx-auto max-w-lg text-center">
-                        <h1 className="text-2xl font-bold sm:text-3xl">Clarek CRM :: Log In!</h1>
-
-                        <p className="mt-4 text-gray-500">
-                            A comprehensive system designed to manage and optimize interactions with customers and other stakeholders in the business!
-                        </p>
+                        <h1 className="text-2xl font-bold sm:text-3xl">Clarek CRM :: Reset Password</h1>
                     </div>
                     <form onSubmit={handleLogin} className="mx-auto mb-0 mt-8 max-w-md space-y-4">
                         {error && <div className="text-red-500">{error}</div>}
 
-                        
+
 
                         <div>
                             <label htmlFor="phone" className="sr-only">Phone</label>
@@ -91,14 +87,14 @@ const Login: React.FC = () => {
                         </div>
 
                         <div>
-                            <label htmlFor="password" className="sr-only">Password</label>
+                            <label htmlFor="verification-code" className="sr-only"></label>
                             <div className="relative">
                                 <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    type="sms-code"
+                                    value={smsCode}
+                                    onChange={(e) => setSmsCode(e.target.value)}
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                    placeholder="Enter password"
+                                    placeholder="Verifcation code"
                                 />
 
                                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -136,7 +132,9 @@ const Login: React.FC = () => {
                                 Sign in
                             </button>
 
-                            <Link className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" to="#">
+                            <Link className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                                to="/forgot-password"
+                            >
                                 Forgot Password?
                             </Link>
                         </div>
@@ -154,17 +152,9 @@ const Login: React.FC = () => {
                         </div>
                     </form>
                 </div>
-
-                <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
-                    <img
-                        alt="Welcome"
-                        src="https://images.unsplash.com/photo-1543599538-a6c4f6cc5c05"
-                        className="absolute inset-0 h-full w-full object-cover"
-                    />
-                </div>
             </section>
         </>
     );
 }
 
-export default Login;
+export default ForgotPassword;

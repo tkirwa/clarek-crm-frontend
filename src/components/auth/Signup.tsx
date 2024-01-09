@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../utils/config';
+import { API_BASE_URL } from '../../utils/config';
 
 
 const Signup: React.FC = () => {

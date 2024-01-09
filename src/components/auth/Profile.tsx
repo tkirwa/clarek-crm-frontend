@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-// import React, { useEffect, useState } from 'react';
-import { useAuth } from '../auth/AuthContext';
+import { useAuth } from '../../auth/AuthContext';
 
 const Profile: React.FC = () => {
   // const { token, user } = useAuth();
