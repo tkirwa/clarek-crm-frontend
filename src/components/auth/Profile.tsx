@@ -10,7 +10,7 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        console.log(user);
+        // console.log(user);
       } catch (error) {
         console.error('Error fetching user profile:', error);
       }

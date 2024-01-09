@@ -35,8 +35,8 @@ const Login: React.FC = () => {
       
           navigate('/dashboard');
       
-          console.log('Token:', token);
-          console.log('User:', user);
+        //   console.log('Token:', token);
+        //   console.log('User:', user);
         } catch (error: any) {
           setError((error.response?.data?.error as string) || 'An error occurred');
         } finally {

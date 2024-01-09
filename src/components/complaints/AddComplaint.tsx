@@ -30,20 +30,20 @@ const AddComplaint: React.FC = () => {
         }
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/complaints`, {
+            await axios.post(`${API_BASE_URL}/api/complaints`, {
                 subject: trimmedSubject,
                 description: trimmedDescription,
                 createdBy: user._id // Ensure that createdBy is correctly populated
             });
 
-            const { complaint } = response.data;
+            // const { complaint } = response.data;
 
             // Reset error state and show success message
             setError(null);
 
             // Assume that you have a successful registration message to display
             setMessage("Complaint launched successfully");
-            console.log('Complaint launched successfully:', complaint);
+            // console.log('Complaint launched successfully:', complaint);
             navigate('/launch_complaint');
         } catch (error: any) {
             console.error('Error sending complaint:', error);

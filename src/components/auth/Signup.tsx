@@ -61,7 +61,7 @@ const Signup: React.FC = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/users`, {
+            await axios.post(`${API_BASE_URL}/api/users`, {
                 firstName: trimmedFirstName,
                 lastName: trimmedLastName,
                 phone: formattedPhone,
@@ -70,11 +70,11 @@ const Signup: React.FC = () => {
                 password_confirmation: trimmedPasswordConfirmation,
             });
 
-            const { user } = response.data;
+            // const { user } = response.data;
 
             // Assume that you have a successful registration message to display
             setMessage("User registered successfully");
-            console.log('User registered successfully:', user);
+            // console.log('User registered successfully:', user);
             navigate('/login');
         } catch (error: any) {
             if (error.response && error.response.data && error.response.data.errors) {
@@ -139,6 +139,7 @@ const Signup: React.FC = () => {
                             </div>
 
                             <form onSubmit={handleSignup} className="mt-8 grid grid-cols-6 gap-6">
+                                {loading && <div className="text-gray-500">Loading...</div>}
                                 {error && <div className="text-red-500">{error}</div>}
                                 {message && <div className="text-green-500">{message}</div>}
 
@@ -178,7 +179,7 @@ const Signup: React.FC = () => {
                                     <input
                                         type="text"
                                         id="phone"
-                                        placeholder="Format +234XXXXXXXX"
+                                        placeholder="Format 234XXXXXXXX"
                                         name="phone"
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
