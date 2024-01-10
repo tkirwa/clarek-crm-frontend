@@ -63,8 +63,7 @@ const Blog: React.FC = () => {
                             posts.map((items, key) => (
                                 <li className="w-full mx-auto group sm:max-w-sm" key={key}>
                                     <Link to={items.to}>
-                                        <img src={items.img} alt={items.title} className="w-full rounded-lg" />
-                                        {/* <img src={items.img} loading="lazy" alt={items.title} className="w-full rounded-lg" /> */}
+                                        <img src={items.img} loading="lazy" alt={items.title} className="w-full rounded-lg" />
                                         <div className="mt-3 space-y-2">
                                             <span className="block text-indigo-600 text-sm">{items.date}</span>
                                             <h3 className="text-lg text-gray-800 duration-150 group-hover:text-indigo-600 font-semibold">
