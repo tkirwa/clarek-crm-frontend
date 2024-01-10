@@ -16,6 +16,17 @@ const AddComplaint: React.FC = () => {
 
     const navigate = useNavigate();
 
+    const sendTicketNumberViaSMS = async (phone: string, ticketNumber: string) => {
+        try {
+            await axios.post(`${API_BASE_URL}/api/sms/send-sms`, {
+                smsPhone: user.phone,
+                smsMessage: `Your complaint ticket number is: ${ticketNumber}`,
+            });
+        } catch (error) {
+            console.error('Error sending SMS:', error);
+        }
+    };
+
     const handleSendComplaint = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -30,13 +41,13 @@ const AddComplaint: React.FC = () => {
         }
 
         try {
-            await axios.post(`${API_BASE_URL}/api/complaints`, {
+            const response = await axios.post(`${API_BASE_URL}/api/complaints`, {
                 subject: trimmedSubject,
                 description: trimmedDescription,
                 createdBy: user._id // Ensure that createdBy is correctly populated
             });
 
-            // const { complaint } = response.data;
+            const { complaint } = response.data;
 
             // Reset error state and show success message
             setError(null);
@@ -44,6 +55,11 @@ const AddComplaint: React.FC = () => {
             // Assume that you have a successful registration message to display
             setMessage("Complaint launched successfully");
             // console.log('Complaint launched successfully:', complaint);
+
+            // Send the ticket number via SMS
+            await sendTicketNumberViaSMS(user.phone, complaint.ticketNumber);
+
+
             navigate('/launch_complaint');
         } catch (error: any) {
             console.error('Error sending complaint:', error);
@@ -52,7 +68,11 @@ const AddComplaint: React.FC = () => {
             }
             setError('An error occurred while sending the complaint');
         }
+
+
     };
+
+
 
 
     return (

@@ -51,12 +51,9 @@ const Header: React.FC = () => {
                                 <li>
                                     <Link className="text-gray-500 transition hover:text-gray-500/75" to="/about"> About </Link>
                                 </li>
-                                <li>
-                                    <Link className="text-gray-500 transition hover:text-gray-500/75" to="/"> Projects </Link>
-                                </li>
 
                                 <li>
-                                    <Link className="text-gray-500 transition hover:text-gray-500/75" to="/"> Blog </Link>
+                                    <Link className="text-gray-500 transition hover:text-gray-500/75" to="/blog"> Blog </Link>
                                 </li>
                             </ul>
                         </nav>

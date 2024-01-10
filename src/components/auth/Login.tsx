@@ -82,7 +82,7 @@ const Login: React.FC = () => {
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                    placeholder="+234XXXXXXXX..."
+                                    placeholder="234XXXXXXXX..."
                                 />
                                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
                                     <FontAwesomeIcon icon={faPhone} />

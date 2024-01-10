@@ -15,6 +15,7 @@ import LaunchComplaint from './components/complaints/LaunchComplaint';
 import ComplaintList from './components/complaints/ComplaintList';
 import UsersList from './components/users/UsersList';
 import ForgotPassword from './components/auth/ForgotPassword';
+import Blog from './components/Blog';
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route element={<ForgotPassword />} path="/forgot-password" />
           <Route element={<Signup />} path="/signup" />
           <Route element={<About />} path="/about" />
+          <Route element={<Blog />} path="/blog" />
           <Route path="/dashboard/*" element={<PrivateRoute />}>
             <Route index element={<Dashboard />} />
             <Route path="complaints_list" element={<ComplaintList />} />
