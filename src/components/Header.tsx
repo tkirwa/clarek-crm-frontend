@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth } from '../auth/AuthContext'; // Adjust the path based on your project structure
-import logoSm from '../assets/logo192.png';
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -17,6 +16,11 @@ const Header: React.FC = () => {
         navigate('/login');
     };
 
+
+    const logo = {
+        url: "/images/assets/logo192.png",
+    };
+
     return (
         <header className="bg-white">
             <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
@@ -28,7 +32,7 @@ const Header: React.FC = () => {
                     >
                         <span className="sr-only">Home</span>
                         <svg className="h-8" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <image href={logoSm} width="28" height="24" />
+                            <image href={logo.url} width="28" height="24" />
                         </svg>
                     </Link>
                 ) : (
@@ -38,7 +42,7 @@ const Header: React.FC = () => {
                     >
                         <span className="sr-only">Home</span>
                         <svg className="h-8" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <image href={logoSm} width="28" height="24" />
+                            <image href={logo.url} width="28" height="24" />
                         </svg>
                     </Link>
                 )}

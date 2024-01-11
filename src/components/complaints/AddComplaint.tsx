@@ -12,20 +12,10 @@ const AddComplaint: React.FC = () => {
     const [description, setDescription] = useState('');
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
-    const sendTicketNumberViaSMS = async (phone: string, ticketNumber: string) => {
-        try {
-            await axios.post(`${API_BASE_URL}/api/sms/send-sms`, {
-                smsPhone: user.phone,
-                smsMessage: `Your complaint ticket number is: ${ticketNumber}`,
-            });
-        } catch (error) {
-            console.error('Error sending SMS:', error);
-        }
-    };
 
     const handleSendComplaint = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,6 +31,7 @@ const AddComplaint: React.FC = () => {
         }
 
         try {
+            setLoading(true);
             const response = await axios.post(`${API_BASE_URL}/api/complaints`, {
                 subject: trimmedSubject,
                 description: trimmedDescription,
@@ -54,11 +45,7 @@ const AddComplaint: React.FC = () => {
 
             // Assume that you have a successful registration message to display
             setMessage("Complaint launched successfully");
-            // console.log('Complaint launched successfully:', complaint);
-
-            // Send the ticket number via SMS
-            await sendTicketNumberViaSMS(user.phone, complaint.ticketNumber);
-
+            console.log('Complaint launched successfully:', complaint);
 
             navigate('/launch_complaint');
         } catch (error: any) {
@@ -67,8 +54,9 @@ const AddComplaint: React.FC = () => {
                 console.error('Response:', error.response.data);
             }
             setError('An error occurred while sending the complaint');
+        } finally {
+            setLoading(false);
         }
-
 
     };
 
@@ -140,7 +128,16 @@ const AddComplaint: React.FC = () => {
                                         type="submit"
                                         className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
                                     >
-                                        Send Complaint
+                                        {loading ? (
+                                            <>
+                                                Loading...
+                                            </>
+
+                                        ) : (
+                                            <>
+                                                Send Complaint
+                                            </>
+                                        )}
                                     </button>
                                 </div>
                             </form>

@@ -10,18 +10,20 @@ import Analytics from './components/stats/Analytics';
 import Profile from './components/auth/Profile';
 import About from './components/About';
 import Homepage from './components/Homepage';
-import Header from './components/Header';
+// import Header from './components/Header';
 import LaunchComplaint from './components/complaints/LaunchComplaint';
 import ComplaintList from './components/complaints/ComplaintList';
 import UsersList from './components/users/UsersList';
 import ForgotPassword from './components/auth/ForgotPassword';
 import Blog from './components/Blog';
+import NavbarHeader from './components/NavbarHeader';
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
-      <Header/>
+      <NavbarHeader/>
+      {/* <Header/> */}
         <Routes>
           <Route element={<Homepage />} path="/" />
           <Route element={<Login />} path="/login" />

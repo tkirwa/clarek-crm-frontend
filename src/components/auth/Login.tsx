@@ -17,32 +17,32 @@ const Login: React.FC = () => {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-      
+
         try {
-          setLoading(true);
-          const response = await axios.post(
-            `${API_BASE_URL}/api/auth/login`,
-            { phone, password }
-          );
-      
-          const { token, user } = response.data;
-      
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
-      
-          setToken(token);
-          setUser(user);
-      
-          navigate('/dashboard');
-      
-        //   console.log('Token:', token);
-        //   console.log('User:', user);
+            setLoading(true);
+            const response = await axios.post(
+                `${API_BASE_URL}/api/auth/login`,
+                { phone, password }
+            );
+
+            const { token, user } = response.data;
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            setToken(token);
+            setUser(user);
+
+            navigate('/dashboard');
+
+            //   console.log('Token:', token);
+            //   console.log('User:', user);
         } catch (error: any) {
-          setError((error.response?.data?.error as string) || 'An error occurred');
+            setError((error.response?.data?.error as string) || 'An error occurred');
         } finally {
-          setLoading(false);
+            setLoading(false);
         }
-      };
+    };
 
     // Use useEffect to check if the user is logged in and redirect
     useEffect(() => {
@@ -61,6 +61,14 @@ const Login: React.FC = () => {
     return (
         <>
             <section className="relative flex flex-wrap lg:h-screen lg:items-center">
+
+                <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
+                    <img
+                        alt="Welcome"
+                        src="https://images.unsplash.com/photo-1543599538-a6c4f6cc5c05"
+                        className="absolute inset-0 h-full w-full object-cover"
+                    />
+                </div>
                 <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
                     <div className="mx-auto max-w-lg text-center">
                         <h1 className="text-2xl font-bold sm:text-3xl">Clarek CRM :: Log In!</h1>
@@ -72,7 +80,7 @@ const Login: React.FC = () => {
                     <form onSubmit={handleLogin} className="mx-auto mb-0 mt-8 max-w-md space-y-4">
                         {error && <div className="text-red-500">{error}</div>}
 
-                        
+
 
                         <div>
                             <label htmlFor="phone" className="sr-only">Phone</label>
@@ -157,13 +165,6 @@ const Login: React.FC = () => {
                     </form>
                 </div>
 
-                <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
-                    <img
-                        alt="Welcome"
-                        src="https://images.unsplash.com/photo-1543599538-a6c4f6cc5c05"
-                        className="absolute inset-0 h-full w-full object-cover"
-                    />
-                </div>
             </section>
         </>
     );

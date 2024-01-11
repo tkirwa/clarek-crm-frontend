@@ -11,12 +11,13 @@ const ForgotPassword: React.FC = () => {
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    // const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
-    const [codeFieldVisible, setCodeFieldVisible] = useState(false);
+
     const [sendCodeButtonVisible, setSendCodeButtonVisible] = useState(true);
+    const [codeFieldVisible, setCodeFieldVisible] = useState(false);
     const [verifyCodeButtonVisible, setVerifyCodeButtonVisible] = useState(false);
     const [visiblePasswordFields, setVisiblePasswordFields] = useState(false);
+
     const navigate = useNavigate();
 
     const handleSendCode = async (e: React.FormEvent) => {
@@ -24,17 +25,23 @@ const ForgotPassword: React.FC = () => {
 
         try {
             setLoading(true);
-            await axios.post(
+
+            const response = await axios.post(
                 `${API_BASE_URL}/api/sms/send-code`,
                 { phone }
             );
 
+            // Log the complete response to the console for debugging
+            console.log('API Response:', response);
+
             // console.log('Verification code sent via SMS:', response);
-            setMessage("");
-            setMessage("Verification code sent via SMS");
+            // setMessage("Verification code sent via SMS");
+            setMessage(response.data.message || 'Verification code sent via SMS');
+
+            setMessage(message);
+            setSendCodeButtonVisible(false);
             setCodeFieldVisible(true);
             setVerifyCodeButtonVisible(true);
-            setSendCodeButtonVisible(false);
 
         } catch (error: any) {
             setError((error.response?.data?.error as string) || 'An error occurred');
@@ -43,9 +50,13 @@ const ForgotPassword: React.FC = () => {
         }
     };
 
+
+    // Handle verification code
     const handleVerifyCode = async () => {
+
         try {
             setLoading(true);
+
             const response = await axios.post(
                 `${API_BASE_URL}/api/sms/verify-code`,
                 { phone, code }
@@ -56,19 +67,21 @@ const ForgotPassword: React.FC = () => {
             // Handle verification success
             setMessage("");
             setMessage(response.data.message || 'Verification successful');
-            setSendCodeButtonVisible(!verifyCodeButtonVisible);
-            setVerifyCodeButtonVisible(sendCodeButtonVisible);
-            setVisiblePasswordFields(true);
+            setVerifyCodeButtonVisible(false);
             setCodeFieldVisible(false);
-            // Perform any additional actions after successful verification
+            setVisiblePasswordFields(true);
+
             // For example, redirect the user to the password reset page
             // navigate('/reset-password');
         } catch (error: any) {
-            setError((error.response?.data?.error as string) || 'Verification failed. Please try again.');
+            setMessage("");
+            setError((error.response?.data?.error as string) || 'Verification code has expired');
         } finally {
             setLoading(false);
         }
     };
+
+
 
     const handleResetPassword = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -123,7 +136,6 @@ const ForgotPassword: React.FC = () => {
     }
 
 
-
     // Use useEffect to check if the user is logged in and redirect
     useEffect(() => {
         // Check if the user is logged in (you can replace this with your actual authentication logic)
@@ -145,9 +157,8 @@ const ForgotPassword: React.FC = () => {
                     <div className="mx-auto max-w-lg text-center">
                         <h1 className="text-2xl font-normal sm:text-3xl"><strong>Clarek CRM</strong> : : Reset Password</h1>
                     </div>
-                    <form onSubmit={handleSendCode} className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+                    <form className="mx-auto mb-0 mt-8 max-w-md space-y-4">
                         {loading && <div className="text-gray-500">Loading...</div>}
-
                         {error && <div className="text-red-500">{error}</div>}
                         {message && <div className="text-green-500">{message}</div>}
 
@@ -160,10 +171,9 @@ const ForgotPassword: React.FC = () => {
                                     type="text"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    disabled={!sendCodeButtonVisible}
                                     required
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                    placeholder="+234XXXXXXXX..."
+                                    placeholder="234XXXXXXXX..."
                                 />
                                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -184,36 +194,39 @@ const ForgotPassword: React.FC = () => {
                                         onChange={(e) => setCode(e.target.value)}
                                         className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                         placeholder="Verifcation code"
-                                        disabled={!verifyCodeButtonVisible}
 
                                     />
-
                                 </div>
                             </div>
-
                         )}
 
+
+
                         <div className="flex items-center justify-between">
-
                             {sendCodeButtonVisible && (
-                                <button
-                                    type="submit"
-                                    className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
-                                    disabled={loading}
-                                >
-                                    Send Code
-                                    <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24" fill="currentColor"
-                                            className="w-6 h-6">
-                                            <path
-                                                d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
-                                        </svg>
 
-                                    </span>
-                                </button>
+                                <>
+                                    <button
+                                        type="button"
+                                        onClick={handleSendCode}
+                                        className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+                                    >
+                                        Send Code
+                                        <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor"
+                                                className="w-6 h-6">
+                                                <path
+                                                    d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
+                                            </svg>
+
+                                        </span>
+                                    </button>
+                                </>
                             )}
+
                             {verifyCodeButtonVisible && (
+
                                 <button
                                     type="button"
                                     onClick={handleVerifyCode}
@@ -221,7 +234,6 @@ const ForgotPassword: React.FC = () => {
                                 >
                                     Verify Code
                                 </button>
-
                             )}
 
                         </div>
@@ -267,6 +279,8 @@ const ForgotPassword: React.FC = () => {
                             </>
 
                         )}
+
+
                         <div className="flex items-center justify-between">
 
                             <p className="text-sm text-gray-500">

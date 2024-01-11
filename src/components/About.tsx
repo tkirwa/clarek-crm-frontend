@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import FooterSmall from './FooterSmall';
 // import { useAuth } from '../utils/AuthContext';
 
 
@@ -14,7 +15,7 @@ const About: React.FC = () => {
         },
         {
             avatar: "/images/co_photo.jpeg",
-            name: "Micheal colorand",
+            name: "Clarence Ogiesoba-Eguakun",
             title: "Software Engineer",
             linkedin: "",
             twitter: "",
@@ -73,6 +74,10 @@ const About: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+            <div>
+                <FooterSmall/>
+            </div>
 
         </>
     );

@@ -1,7 +1,13 @@
 import React from 'react';
-import logoSm from '../assets/logo192.png';
+// import logoSm from '../assets/images/logo192.png';
 
 const Footer: React.FC = () => {
+
+
+    const logo = {
+        url: "/images/assets/logo192.png",
+    };
+
     return (
         <>
 
@@ -11,7 +17,7 @@ const Footer: React.FC = () => {
                         <div>
                             <div className="flex justify-center text-teal-600 sm:justify-start">
                                 <svg className="h-8" viewBox="0 0 118 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <image href={logoSm} width="28" height="24" />
+                                    <image href={logo.url} width="28" height="24" />
                                 </svg>
                                 <label>Clarek CRM</label>
                             </div>
@@ -146,7 +152,7 @@ const Footer: React.FC = () => {
                                 <ul className="mt-8 space-y-4 text-sm">
                                     <li>
                                         <a className="text-gray-700 transition hover:text-gray-700/75" href="/">
-                                        Automated payment systems
+                                            Automated payment systems
                                         </a>
                                     </li>
 
