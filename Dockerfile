@@ -16,11 +16,11 @@ RUN npm install
 # Copies everything over to Docker environment
 COPY . .
 
-# Build the application for productio
+# Build the application for production
 RUN npm run build --production
 
 # Copy the build files to the working directory
-COPY build/ ./
+# COPY build/ ./build
 
 # Install `serve` to run the application
 RUN npm install -g serve
@@ -32,4 +32,4 @@ EXPOSE 5000
 # CMD ["npm", "start"]
 
 # Run the application
-CMD serve -s build
+CMD ["serve", "-s", "build", "-l", "5000"]
