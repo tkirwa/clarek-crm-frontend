@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext'; // Adjust the path based on your project structure
-import logoSm from '../assets/logo192.png';
+// import logoSm from '../assets/logo192.png';
 
 const Header: React.FC = () => {
     const { token } = useAuth();
