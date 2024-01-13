@@ -61,7 +61,7 @@ const Signup: React.FC = () => {
         setLoading(true);
 
         try {
-            await axios.post(`${API_BASE_URL}/api/users`, {
+            await axios.post(`${API_BASE_URL}/api/auth/signup`, {
                 firstName: trimmedFirstName,
                 lastName: trimmedLastName,
                 phone: formattedPhone,
