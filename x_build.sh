@@ -2,4 +2,4 @@
 
 npm run build
 
-docker build -t clarek-crm-frontend-image-v1 .
+docker build -t clarek-crm-frontend-image-v3 .
